@@ -12,6 +12,7 @@
 # You should have received a copy of the GNU General Public License 
 # along with this program.  If not, see <https://www.gnu.org/licenses/>;.
 
+
 from subprocess import Popen, PIPE
 import sys
 
@@ -23,9 +24,9 @@ infile = open(infileName, "r")
 outfileName =  "varySites/data"+inputChrom
 outfile = open(outfileName, "w")
 
-header = "#\t"
-for i in range(101, 145):
-    header += str(i) + "\t"
+header = "# "
+for i in range(1, 45):
+    header += str(i) + " "
 header += "dels \n"
 
 if inputChrom == "1":
@@ -40,10 +41,14 @@ for line in infile:
     seq = fields[0]
     indel_loc = fields[6]
     size = fields[8]
+    ref = fields[13]
+    alt = fields[14]
 
     if size==1 and counter1 > 2000:
         continue
 
+    if len(ref) != 1 and len(alt) != 1:
+        continue
 
     command = "./varySites " + seq + " " + indel_loc + " " + size
     myPipe = Popen(command, shell=True, stdout=PIPE)
@@ -56,7 +61,7 @@ for line in infile:
     if len(AllDDGs) <= 44:
         continue
 
-    DDGs = "\t".join(AllDDGs[:44])+"\t"+deletion
+    DDGs = " ".join(AllDDGs[:44])+" "+deletion
 
     outfile.write(DDGs + "\n")
 
@@ -66,6 +71,7 @@ for line in infile:
     counter+=1
     if size == 1:
         counter1 += 1
+
 
 
 

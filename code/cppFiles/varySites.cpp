@@ -12,7 +12,6 @@
 // You should have received a copy of the GNU General Public License 
 // along with this program.  If not, see <https://www.gnu.org/licenses/>;.
 
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -69,8 +68,8 @@ int main(int argc, char* argv[])
     //set parameters
     protein_length = 7;
     seq_length = strlen(argv[1]);
-    deletion_loc = stoi(argv[2]);
-    deletion_size = stoi(argv[3]);
+    deletion_loc = atoi(argv[2]);
+    deletion_size = atoi(argv[3]);
     protein_start = deletion_loc + deletion_size;
     protein_end = seq_length - protein_length + 1;
 
@@ -97,7 +96,7 @@ int main(int argc, char* argv[])
         alt_protein_start = deletion_loc;
         alt_protein_end = alt_seq_length - protein_length + 1;
 
-        cout << seq_ptr << endl << alter_ptr << endl;
+        
 
         //initialize parameters for folding
         char* mfe_structure = (char*)vrna_alloc(sizeof(char) * (strlen(seq_ptr) + 1));
@@ -173,3 +172,4 @@ int del_nts(char* seq_ptr, int deletion_loc, int deletion_size)
 
     return 1;
 }
+
