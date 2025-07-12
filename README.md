@@ -1,11 +1,15 @@
 # IndelPolymorphismsModulateDistalRNAProteinInteractions
-This repository includes all code related to the manuscript "Indel polymorphisms modulate distal RNA-protein interactions through RNA secondary structure changes" by Carlos Owusu-Ansah, Elan Shatoff, and Ralf Bundschuh
+This repository includes all code related to the manuscript "The structural effects of distal indel polymorphisms on RNA-protein interactions are shaped by purifying selection" by Carlos Owusu-Ansah, Elan Shatoff, and Ralf Bundschuh
 
 ## Manuscript Figures
 
 - **[`generate_manuscript_figures.ipynb`](https://colab.research.google.com/github/bundschuhlab/IndelPolymorphismsModulateDistalRNAProteinInteractions/blob/main/generate_manuscript_figures.ipynb)**: This notebook generates all the figures used in the manuscript. It processes data from various directories to visualize the effects of indels on protein binding affinity. The output of this notebook is saved in the **`figures/`** folder. You can use the following link to open the notebook in google colab and run the code that generates the figures.
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bundschuhlab/IndelPolymorphismsModulateDistalRNAProteinInteractions/blob/main/generate_manuscript_figures.ipynb)
+
+## Supplementary Data
+
+- **[`S1_Table.csv`](S1_Table.csv)**: This table lists natural human indels predicted to have a physiologically significant impact on HuR binding affinity. It includes dbSNP identifiers, genomic coordinates, allele sequences, and predicted binding preference changes.
 
 ## Simulation Data Folders
 
@@ -14,7 +18,8 @@ This repository includes all code related to the manuscript "Indel polymorphisms
 - **`dataHuman/`**: Contains data on human transcripts selected based on their proximity (<200 nucleotides) to known RNA-binding sites. Subdirectories include:
   - `likeRandomNoIndels/`: synthetic indels | arbitrary binding sites
   - `likeRandom/`: synthetic indels near (aprox 25 nts) real indels | arbitrary binding sites
-  - `varySites/`: natural indels | arbitrary binding sites
+  - `varySites/`: natural indels | arbitrary binding sites (3' of indel)
+  - `varySites_5prime/`: natural indels | arbitrary binding sites (5' of indel)
   - `badSites/`: natural indels | HuR binding sites translated by 300 nucleotides.
   - `SameSites/`: natural indels | HuR binding sites
 
@@ -34,7 +39,7 @@ The **`code/`** folder contains the code used to generate the simulation data. I
 ### Helper Scripts
 
 - **`pythonFiles/combineHuRandIndels.py`**: Identifies and stores indels proximal (within 200 nts) to HuR binding locations.
-- **`pythonFiles/GetSequence.py`**: Extracts sequences containing a specified indel.
+- **`pythonFiles/GetSequences.py`**: Extracts sequences containing a specified indel.
 - **`pythonFiles/join_indels.py`**: Merges multiple indel-related data files into a single file.
 - **`pythonFiles/splitHuRplusIndels.py`**: Splits HuR binding location data and indel data into separate files per chromosome.
 
@@ -44,8 +49,10 @@ The **`code/`** folder contains the code used to generate the simulation data. I
   - Calls the executable `DEL.x`, compiled from `indels.cpp`.
 - **`pythonFiles/treatLikeRandom.py`**: Simulates synthetic indels and arbitrary binding sites in human sequences.
   - Calls the executable `indel_human`, compiled from `indel_human.cpp`.
-- **`pythonFiles/varySites.py`**: Simulates real indels and arbitrary binding sites.
+- **`pythonFiles/varySites.py`**: Simulates real indels and arbitrary binding sites placed 3' (downstream) of the indel.
   - Calls the executable `varySites`, compiled from `varySites.cpp`.
+- **`pythonFiles/varySites_5prime.py`**: Simulates real indels and arbitrary binding sites placed 5' (upstream) of the indel.
+  - Calls the executable `varySites_5prime`, compiled from `varySites_5prime.cpp`.
 - **`pythonFiles/GetKdandBestSites.py`**: Computes HuR dissociation constant and binding probabilities for sequences containing an HuR binding site.
   - Uses in vitro RNA-binding experiment data (e.g., RNAcompete).
   - Calls the executable `findConstant`, compiled from `reduced_elan.cpp`.
